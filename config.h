@@ -76,9 +76,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "rofi", "-show", "drun", "-icon-theme", "\"Parpir\"", "-show-icons",NULL };
 static const char *termcmd[] = {"alacritty", NULL};
 static const char *flameshotcmd[] = { "flameshot",  "gui", NULL };
-static const char *volupcmd[] = {"/home/sober/project/my_dwm/scripts/volup.sh"};
-static const char *voldowncmd[] = {"/home/sober/project/my_dwm/scripts/voldown.sh"};
-static const char *volmutecmd[] = {"/home/sober/project/my_dwm/scripts/volmute.sh"};
+static const char *volupcmd[] = {"bash", "/home/sober/project/my_dwm/scripts/volup.sh", NULL};
+static const char *voldowncmd[] = {"bash", "/home/sober/project/my_dwm/scripts/voldown.sh", NULL};
+static const char *volmutecmd[] = {"bash", "/home/sober/project/my_dwm/scripts/volmute.sh", NULL};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
