@@ -1,6 +1,7 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
+#include <X11/X.h>
 static const unsigned int borderpx  = 1;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappih    = 10;       /* horiz inner gap between windows */
@@ -9,7 +10,7 @@ static const unsigned int gappoh    = 10;       /* horiz outer gap between windo
 static const unsigned int gappov    = 10;       /* vert outer gap between windows and screen edge */
 static const int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 0;        /* 0 means bottom bar */
+static const int topbar             = 1;        /* 0 means bottom bar */
 static const Bool viewontag         = True;     /* Switch view on tag switch */
 static const char *fonts[]          = { "Fira Code:size=14" };
 static const char dmenufont[]       = "Fira Code:size=14";
@@ -36,13 +37,14 @@ static const unsigned int alphas[][3]      = {
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
-	/* xprop(1):
-	 *	WM_CLASS(STRING) = instance, class
-	 *	WM_NAME(STRING) = title
-	 */
-	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+    /* xprop(1):
+     *	WM_CLASS(STRING) = instance, class
+     *	WM_NAME(STRING) = title
+     */
+    /* class              instance    title       tags mask     isfloating   monitor */
+    {"Gimp",              NULL,       NULL,       0,            1,          -1},
+    {"Firefox",           NULL,       NULL,       1 << 8,       0,          -1},
+    {"flameshot Laucher", NULL,       NULL,       1 << 0,       0,          -1}, /* 自己加的 */
 };
 
 /* layout(s) */
@@ -71,8 +73,12 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *dmenucmd[] = { "rofi", "-show", "drun", "-icon-theme", "\"Parpir\"", "-show-icons",NULL };
+static const char *termcmd[] = {"alacritty", NULL};
+static const char *flameshotcmd[] = { "flameshot",  "gui", NULL };
+static const char *volupcmd[] = {"/home/sober/project/my_dwm/scripts/volup.sh"};
+static const char *voldowncmd[] = {"/home/sober/project/my_dwm/scripts/voldown.sh"};
+static const char *volmutecmd[] = {"/home/sober/project/my_dwm/scripts/volmute.sh"};
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -119,6 +125,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY,                       XK_s,      show,           {0} },
 	{ MODKEY,                       XK_h,      hide,           {0} },
+  { MODKEY,                       XK_q,      spawn,          {.v = flameshotcmd}},
+  { MODKEY,                       XK_equal,  spawn,          {.v = volupcmd}},
+  { MODKEY,                       XK_minus,  spawn,          {.v = voldowncmd}},
+  { MODKEY,                       XK_backslash,  spawn,      {.v = volmutecmd}},
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
